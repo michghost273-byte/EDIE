@@ -1,0 +1,35 @@
+name: Verify download
+on:
+  push:
+    paths:
+      - 'downloads/EDIE_31_47_1_UPGRADE.zip'
+      - '.github/workflows/verify-download.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            python: '3.15'
+          - os: ubuntu-latest
+            python: '3.11'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Extract tested release
+        run: python -c "import zipfile; zipfile.ZipFile('downloads/EDIE_31_47_1_UPGRADE.zip').extractall('package')"
+      - name: Verify packaged files
+        working-directory: package/EDIE_31_47_1_UPGRADE
+        run: python EDIE.py --verify-package
+      - name: Run complete self-test and resource regressions
+        working-directory: package/EDIE_31_47_1_UPGRADE
+        run: python EDIE.py --self-test
