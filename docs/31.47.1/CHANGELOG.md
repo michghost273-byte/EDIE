@@ -1,4 +1,12 @@
-# EDIE 31.47.1 — Windows SQLite cleanup fix
+# EDIE 31.47.1
+
+## Local AI model installation
+
+The **Install & Select Qwen3.5 4B** button reports download progress and selects
+the model after Ollama lists it as installed. A failed pull keeps the current
+selection and the displayed model list.
+
+## Windows SQLite cleanup fix
 
 Fixes the `PermissionError: [WinError 32]` reported while `CHECK_EDIE.bat`
 removed an `edie11-test-.../test.sqlite3` temporary database on Windows Python
