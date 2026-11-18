@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Install self-test dependency
+        run: python -m pip install cryptography
       - name: Extract tested release
         run: python -c "import zipfile; zipfile.ZipFile('downloads/EDIE_31_47_1_UPGRADE.zip').extractall('package')"
       - name: Verify packaged files
