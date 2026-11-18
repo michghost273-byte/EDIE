@@ -2,7 +2,7 @@ name: Verify download
 on:
   push:
     paths:
-      - 'downloads/EDIE_31_47_4_UPGRADE.zip'
+      - 'downloads/EDIE_31_47_5_UPGRADE.zip'
       - '.github/workflows/verify-download.yml'
   workflow_dispatch:
 permissions:
@@ -28,10 +28,10 @@ jobs:
       - name: Install self-test dependency
         run: python -m pip install cryptography
       - name: Extract tested release
-        run: python -c "import zipfile; zipfile.ZipFile('downloads/EDIE_31_47_4_UPGRADE.zip').extractall('package')"
+        run: python -c "import zipfile; zipfile.ZipFile('downloads/EDIE_31_47_5_UPGRADE.zip').extractall('package')"
       - name: Verify packaged files
-        working-directory: package/EDIE_31_47_4_UPGRADE
+        working-directory: package/EDIE_31_47_5_UPGRADE
         run: python EDIE.py --verify-package
       - name: Run complete self-test and resource regressions
-        working-directory: package/EDIE_31_47_4_UPGRADE
+        working-directory: package/EDIE_31_47_5_UPGRADE
         run: python EDIE.py --self-test
